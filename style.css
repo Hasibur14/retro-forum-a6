@@ -1,0 +1,19 @@
+.image-container {
+    position: relative;
+}
+
+.image-text {
+    display: none;
+    position: absolute;
+    top: -75%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color:#797DFC;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.image-container:hover .image-text {
+    display: block;
+}
