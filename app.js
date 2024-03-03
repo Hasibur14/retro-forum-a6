@@ -4,6 +4,7 @@ const loadAllNews = async () => {
     const allData = data.posts;
 
     const newsContainer = document.getElementById('allNews-container');
+    newsContainer.innerHTML = '';
 
     allData.forEach((item) => {
         // console.log(item);
@@ -18,7 +19,7 @@ const loadAllNews = async () => {
             <div class="card-body">
                 <div class="space-y-5 text-xl">
                     <div class="flex">
-                        <p># ${item.category}</p>
+                        <p id="category-search"># ${item.category}</p>
                         <p>Author: ${item.author.name}</p>
                     </div>
                     <div class="space-y-4">
@@ -92,12 +93,12 @@ const loadLatestPost = async () => {
 
     const latestPostContainer = document.getElementById('latest-post')
     data.forEach((item) => {
-        console.log(item)
-          const div = document.createElement('div');
-          div.innerHTML = `
-          <div class="card w-96 bg-base-100 shadow-xl">
-          <figure><img class="p-4" src="${item.cover_image
-          }" alt="Shoes" />
+        // console.log(item)
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <div class="card lg:w-96 bg-base-100 shadow-xl">
+          <figure><img class="p-6" src="${item.cover_image
+            }" alt="Shoes" />
           </figure>
           <div class="card-body">
            <div class="flex space-x-4">
@@ -108,7 +109,7 @@ const loadLatestPost = async () => {
               <p>${item.description}</p>
               <div class="card-actions flex space-x-4 justify-start">
                   <img class="w-12 h-12 rounded-full" src="${item.profile_image
-                  }" alt="">
+            }" alt="">
                   <div>
                       <h4 class="text-lg font-bold">${item.author.name}</h4>
                       <p>${item.author ? item.author.designation || "Unknown" : "Unknown"}</p>
@@ -118,10 +119,38 @@ const loadLatestPost = async () => {
       </div>
           `
 
-          latestPostContainer.appendChild(div)
+        latestPostContainer.appendChild(div)
     });
 };
 
 
+const searchInputButton = async () => {
+    const inputValue = document.getElementById('search-box').value;
+    
+    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts?category=comedy');
+    const data = await res.json();
+    const dataType = data.posts
+    dataType.forEach((item) =>{
+        const allCategory = (item.category)
+
+        const handleSearch = () => {
+            const inputValue = document.getElementById('search-box').value;
+            console.log(inputValue)
+            if (inputValue) {
+                loadAllNews(inputValue);
+            }
+            // else {
+            //     alert('Please Enter valid Category to Search')
+            // }
+            return
+        }
+        handleSearch()
+    })
+    
+}
+
+
+
+searchInputButton()
 loadLatestPost();
 loadAllNews();
