@@ -6,11 +6,14 @@ const loadAllNews = async () => {
     const newsContainer = document.getElementById('allNews-container');
 
     allData.forEach((item) => {
+        console.log(item);
         const div = document.createElement('div');
-        div.classList = `card card-side bg-base-100 shadow-xl border-2 w-11/12`;
+        div.classList = `card card-side bg-base-100 shadow-xl border-2 lg:w-11/12`;
         div.innerHTML = `
-            <figure>
-                <img class="p-4 rounded-xl w-72" src="${item.image}" alt="Movie" />
+            <figure class="relative">
+                <img class="p-4 rounded-xl w-28 lg:w-72" src="${item.image}" alt="Movie" />
+                <span class=" absolute ${item.isActive?"bg-green-500":"bg-red-500"
+                } w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
             </figure>
             <div class="card-body">
                 <div class="space-y-5 text-xl">
@@ -39,7 +42,7 @@ const loadAllNews = async () => {
                             </div>
                         </div>
                         <div class="card-actions justify-end">
-                            <img class="email-img" data-title="${item.title}" data-view="${item.view_count}" src="./images/email 1.jpg" alt="">
+                        <img class="email-img" data-title="${item.title}" data-view="${item.view_count}" src="./images/email 1.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -48,10 +51,15 @@ const loadAllNews = async () => {
         newsContainer.appendChild(div);
     });
 
-    //  click event listeners to the email img:
+    let totalNews = 0;
     const emailImages = document.querySelectorAll('.email-img');
     emailImages.forEach((img) => {
-        img.addEventListener('click', handleEmailClick);
+        img.addEventListener('click', (event) => {
+            handleEmailClick(event);
+            totalNews++;
+            document.getElementById('cart-count').innerText = totalNews;
+        });
+
     });
 };
 
@@ -66,10 +74,10 @@ const countContainer = (title, viewCount) => {
     const div = document.createElement('div');
     div.classList = `flex bg-white p-4 justify-between rounded-lg`;
     div.innerHTML = `    
-       <h4>${title}</h4>
+       <h4 class="text-lg font-normal">${title}</h4>
        <div class="flex">
            <img src="./images/tabler-icon-eye.jpg" alt="">
-           <p>${viewCount}</p>
+           <p class="text-base font-normal">${viewCount}</p>
        </div>
     `;
     countCard.appendChild(div);
