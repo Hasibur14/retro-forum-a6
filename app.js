@@ -6,14 +6,14 @@ const loadAllNews = async () => {
     const newsContainer = document.getElementById('allNews-container');
 
     allData.forEach((item) => {
-        console.log(item);
+        // console.log(item);
         const div = document.createElement('div');
         div.classList = `card card-side bg-base-100 shadow-xl border-2 lg:w-11/12`;
         div.innerHTML = `
             <figure class="relative">
                 <img class="p-4 rounded-xl w-28 lg:w-72" src="${item.image}" alt="Movie" />
-                <span class=" absolute ${item.isActive?"bg-green-500":"bg-red-500"
-                } w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
+                <span class=" absolute ${item.isActive ? "bg-green-500" : "bg-red-500"
+            } w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
             </figure>
             <div class="card-body">
                 <div class="space-y-5 text-xl">
@@ -83,4 +83,45 @@ const countContainer = (title, viewCount) => {
     countCard.appendChild(div);
 };
 
+
+
+const loadLatestPost = async () => {
+    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+    const data = await res.json();
+    // console.log(data)
+
+    const latestPostContainer = document.getElementById('latest-post')
+    data.forEach((item) => {
+        console.log(item)
+          const div = document.createElement('div');
+          div.innerHTML = `
+          <div class="card w-96 bg-base-100 shadow-xl">
+          <figure><img class="p-4" src="${item.cover_image
+          }" alt="Shoes" />
+          </figure>
+          <div class="card-body">
+           <div class="flex space-x-4">
+           <img src="./images/date.jpg" alt="">
+           <p>${item.author ? item.author.posted_date || "No publish date" : "No publish date"}</p>
+           </div>
+              <h2 class="card-title text-xl font-bold">${item.title}</h2>
+              <p>${item.description}</p>
+              <div class="card-actions flex space-x-4 justify-start">
+                  <img class="w-12 h-12 rounded-full" src="${item.profile_image
+                  }" alt="">
+                  <div>
+                      <h4 class="text-lg font-bold">${item.author.name}</h4>
+                      <p>${item.author ? item.author.designation || "Unknown" : "Unknown"}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+          `
+
+          latestPostContainer.appendChild(div)
+    });
+};
+
+
+loadLatestPost();
 loadAllNews();
