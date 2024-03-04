@@ -3,7 +3,7 @@ const loadAllNews = async (category = '') => {
     const data = await res.json();
 
     if (!data.posts || data.posts.length === 0) {
-        alert("No posts found for the selected category.");
+        alert("please Enter the selected category.");
         return;
     };
 
