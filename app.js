@@ -1,8 +1,13 @@
 const loadAllNews = async (category = '') => {
     const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${category}`);
     const data = await res.json();
-    const allData = data.posts;
 
+    if (!data.posts || data.posts.length === 0) {
+        alert("No posts found for the selected category.");
+        return;
+    };
+
+    const allData = data.posts;
     const newsContainer = document.getElementById('allNews-container');
     newsContainer.innerHTML = '';
 
@@ -15,7 +20,7 @@ const loadAllNews = async (category = '') => {
                 <span class=" absolute indicator-item badge ${item.isActive ? "bg-green-500" : "bg-red-500"} w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
             </figure>
             <div class="card-body">
-                <div class="space-y-5 text-xl">
+                <div class="space-y-5 lg:text-xl">
                     <div class="flex">
                         <p id="category-search"># ${item.category}</p>
                         <p>Author: ${item.author.name}</p>
@@ -27,16 +32,16 @@ const loadAllNews = async (category = '') => {
                     <hr>
                     <div class="flex justify-between ">
                         <div class="flex space-x-10">
-                            <div class="flex space-x-3">
-                                <span><img src="./images/tabler-icon-message-2.jpg" alt=""></span>
+                            <div class="lg:flex space-x-3">
+                                <span><img class="w-8 lg:w-6" src="./images/tabler-icon-message-2.jpg" alt=""></span>
                                 <p>${item.comment_count}</p>
                             </div>
-                            <div class="flex space-x-3">
-                                <span><img src="./images/tabler-icon-eye.jpg" alt=""></span>
+                            <div class="lg:flex space-x-3">
+                                <span><img class="w-10 lg:w-6"  src="./images/tabler-icon-eye.jpg" alt=""></span>
                                 <p class="view">${item.view_count}</p>
                             </div>
-                            <div class="flex space-x-3">
-                                <span><img src="./images/tabler-icon-clock-hour-9.jpg" alt=""></span>
+                            <div class="lg:flex space-x-3">
+                                <span><img class="w-8 lg:w-6"  src="./images/tabler-icon-clock-hour-9.jpg" alt=""></span>
                                 <p><span>${item.posted_time}</span> min</p>
                             </div>
                         </div>
@@ -93,7 +98,7 @@ const loadLatestPost = async () => {
     data.forEach((item) => {
         const div = document.createElement('div');
         div.innerHTML = `
-          <div class="card lg:w-96 bg-base-100 shadow-xl">
+          <div class="card lg:w-96 bg-base-100 shadow-xl border-t-2">
           <figure><img class="p-6" src="${item.cover_image
             }" alt="Shoes" />
           </figure>
