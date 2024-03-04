@@ -1,5 +1,5 @@
-const loadAllNews = async () => {
-    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
+const loadAllNews = async (category = '') => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${category}`);
     const data = await res.json();
     const allData = data.posts;
 
@@ -7,7 +7,6 @@ const loadAllNews = async () => {
     newsContainer.innerHTML = '';
 
     allData.forEach((item) => {
-        // console.log(item);
         const div = document.createElement('div');
         div.classList = `card card-side bg-base-100 shadow-xl border-2 lg:w-11/12`;
         div.innerHTML = `
@@ -60,7 +59,6 @@ const loadAllNews = async () => {
             totalNews++;
             document.getElementById('cart-count').innerText = totalNews;
         });
-
     });
 };
 
@@ -84,16 +82,12 @@ const countContainer = (title, viewCount) => {
     countCard.appendChild(div);
 };
 
-
-
 const loadLatestPost = async () => {
     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
     const data = await res.json();
-    // console.log(data)
 
     const latestPostContainer = document.getElementById('latest-post')
     data.forEach((item) => {
-        // console.log(item)
         const div = document.createElement('div');
         div.innerHTML = `
           <div class="card lg:w-96 bg-base-100 shadow-xl">
@@ -123,34 +117,16 @@ const loadLatestPost = async () => {
     });
 };
 
-
-const searchInputButton = async () => {
+const handleSearch = async () => {
     const inputValue = document.getElementById('search-box').value;
-    
-    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts?category=comedy');
-    const data = await res.json();
-    const dataType = data.posts
-    dataType.forEach((item) =>{
-        const allCategory = (item.category)
+    await loadAllNews(inputValue);
 
-        const handleSearch = () => {
-            const inputValue = document.getElementById('search-box').value;
-            console.log(inputValue)
-            if (inputValue) {
-                loadAllNews(inputValue);
-            }
-            // else {
-            //     alert('Please Enter valid Category to Search')
-            // }
-            return
-        }
-        handleSearch()
-    })
-    
-}
+};
+
+const searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click', handleSearch);
 
 
 
-searchInputButton()
 loadLatestPost();
-loadAllNews();
+loadAllNews()
