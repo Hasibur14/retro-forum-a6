@@ -119,7 +119,19 @@ const loadLatestPost = async () => {
 
 const handleSearch = async () => {
     const inputValue = document.getElementById('search-box').value;
+
+    const category = document.getElementById('category');
+    category.classList.add('hidden')
+
+    const loadingSpinner = document.getElementById('loading-spinner');
+    loadingSpinner.classList.remove('hidden')
     await loadAllNews(inputValue);
+
+
+    setTimeout(() =>{
+        loadingSpinner.classList.add('hidden');
+        category.classList.remove('hidden');
+    }, 2000);
 
 };
 
