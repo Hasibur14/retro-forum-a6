@@ -12,8 +12,7 @@ const loadAllNews = async (category = '') => {
         div.innerHTML = `
             <figure class="relative">
                 <img class="p-4 rounded-xl w-28 lg:w-72" src="${item.image}" alt="Movie" />
-                <span class=" absolute ${item.isActive ? "bg-green-500" : "bg-red-500"
-            } w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
+                <span class=" absolute indicator-item badge ${item.isActive ? "bg-green-500" : "bg-red-500"} w-4 h-4 rounded-full justify-end mb-20 ml-16 lg:mb-64 lg:ml-60"></span>
             </figure>
             <div class="card-body">
                 <div class="space-y-5 text-xl">
@@ -55,6 +54,10 @@ const loadAllNews = async (category = '') => {
     const emailImages = document.querySelectorAll('.email-img');
     emailImages.forEach((img) => {
         img.addEventListener('click', (event) => {
+
+            event.target.parentNode.parentNode.parentNode.parentNode.parentNode.style.backgroundColor = "gray";
+            event.target.parentNode.parentNode.parentNode.parentNode.parentNode.style.color = "white";
+
             handleEmailClick(event);
             totalNews++;
             document.getElementById('cart-count').innerText = totalNews;
@@ -128,7 +131,7 @@ const handleSearch = async () => {
     await loadAllNews(inputValue);
 
 
-    setTimeout(() =>{
+    setTimeout(() => {
         loadingSpinner.classList.add('hidden');
         category.classList.remove('hidden');
     }, 2000);
